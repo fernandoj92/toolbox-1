@@ -168,7 +168,7 @@ public abstract class MessagePassingAlgorithm<E extends Vector> implements Infer
             boolean done = true;
             for (Node node : nodes) {
 
-
+                // Si el nodo no esta activo o se encuentra observado (no se que es eso), se salta la iteracion
                 if (!node.isActive() || node.isObserved())
                     continue;
 
@@ -178,7 +178,7 @@ public abstract class MessagePassingAlgorithm<E extends Vector> implements Infer
                                 .stream()
                                 .filter(children -> children.isActive())
                                 .map(children -> newMessageToParent(children, node))
-                                .reduce(Message::combineNonStateless);
+                                .reduce(Message::combineNonStateless);//foldLeft basicamente, combinando vectores
 
                 if (message.isPresent())
                     selfMessage.combine(message.get());
@@ -278,6 +278,7 @@ public abstract class MessagePassingAlgorithm<E extends Vector> implements Infer
      * Sets the list of nodes.
      * @param nodes a {@code List} of {@link Node}s to be set.
      */
+    // Crea un hashmap donde cada variable tiene asignada un nodo (de los miles repetidos)
     public void setNodes(List<Node> nodes) {
         this.nodes = nodes;
         variablesToNode = new ConcurrentHashMap();

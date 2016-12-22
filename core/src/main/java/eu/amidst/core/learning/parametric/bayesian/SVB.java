@@ -469,9 +469,14 @@ public class SVB implements BayesianParameterLearningAlgorithm, Serializable {
         this.nBatches = 0;
         this.nIterTotal = 0;
         this.plateuStructure.setSeed(seed);
+        // Aqui es donde se crean las distribuciones a partir del DAG
+        // variable.newEF_Distribution...
         plateuStructure.setDAG(dag);
+        // Aqui es donde se replican los nodos en el plateauIID y finalmente se asignan todos esos nodos al VMP
         plateuStructure.replicateModel();
+        // Las Qdists de TODOS los nodos son reseteados utilizando un random
         this.plateuStructure.resetQs();
+        // Simplemente devuelve la ef_learning_bn
         this.ef_extendedBN = this.plateuStructure.getEFLearningBN();
 
         if (transitionMethod!=null)

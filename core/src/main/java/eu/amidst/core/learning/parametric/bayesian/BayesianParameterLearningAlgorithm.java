@@ -37,7 +37,7 @@ public interface BayesianParameterLearningAlgorithm extends ParameterLearningAlg
      * @param batch, a batch of data instances.
      * @return A list of {@link DataPosterior} objects.
      */
-    public List<DataPosterior> computePosterior(DataOnMemory<DataInstance> batch);
+    List<DataPosterior> computePosterior(DataOnMemory<DataInstance> batch);
 
     /**
      * Compute the posterior over a given set of latent variables for a given set of data instances

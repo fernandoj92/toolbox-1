@@ -63,7 +63,7 @@ public class ParallelMaximumLikelihood implements ParameterLearningAlgorithm{
     protected boolean debug = true;
 
     /** Represents whether Laplace correction (i.e. MAP estimation) is used*/
-    protected boolean laplace = true;
+    protected boolean laplace = false;
 
 
     /**

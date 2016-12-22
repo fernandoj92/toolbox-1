@@ -53,7 +53,7 @@ public class PlateuIIDReplication extends PlateuStructure{
     public void setEvidence(List<? extends DataInstance> data) {
         if (data.size() > nReplications)
             throw new IllegalArgumentException("The size of the data is bigger than the number of repetitions");
-
+        // Le asigna a cada nodo su instancia y lo activa (ademas de calcular las suff stats en el interior)
         for (int i = 0; i < nReplications && i < data.size(); i++) {
             final int slice = i;
             this.replicatedNodes.get(i).forEach(node -> {
@@ -86,6 +86,7 @@ public class PlateuIIDReplication extends PlateuStructure{
     @Override
     public void replicateModel(){
 
+        // Stores the non-replicated nodes
         nonReplictedNodes = ef_learningmodel.getDistributionList().stream()
                 .filter(dist -> isNonReplicatedVar(dist.getVariable()))
                 .map(dist -> {
@@ -95,6 +96,7 @@ public class PlateuIIDReplication extends PlateuStructure{
                 })
                 .collect(Collectors.toList());
 
+        // Stores the replicated nodes, a set of nodes for each data instance
         for (int i = 0; i < nReplications; i++) {
 
             Map<Variable, Node> map = new ConcurrentHashMap<>();

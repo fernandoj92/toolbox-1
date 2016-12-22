@@ -136,7 +136,12 @@ public abstract class EF_Distribution implements Serializable {
      * @return a {@code double} that represents the log probability value.
      */
     public double computeLogProbabilityOf(Assignment assignment) {
-        return this.naturalParameters.dotProduct(this.getSufficientStatistics(assignment)) + this.computeLogBaseMeasure(assignment) - this.computeLogNormalizer();
+        SufficientStatistics sufficientStatistics = this.getSufficientStatistics(assignment);
+        double dotProduct = this.naturalParameters.dotProduct(sufficientStatistics);
+        double base = this.computeLogBaseMeasure(assignment);
+        double normalizer = this.computeLogNormalizer();
+        //return this.naturalParameters.dotProduct(this.getSufficientStatistics(assignment)) + this.computeLogBaseMeasure(assignment) - this.computeLogNormalizer();
+        return dotProduct + base - normalizer;
     }
 
     /**
