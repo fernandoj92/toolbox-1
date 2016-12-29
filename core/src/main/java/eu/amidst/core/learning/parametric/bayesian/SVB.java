@@ -76,9 +76,11 @@ public class SVB implements BayesianParameterLearningAlgorithm, Serializable {
     boolean nonSequentialModel=false;
 
     /** Indicates if this SVB can random restarted, initialized to {@code false}. */
+    // random restart con cada batch?
     boolean randomRestart=false;
 
     /** Represents the window size, initialized to 100. */
+    // batch size?
     int windowsSize=100;
 
     /** Represents the seed, initialized to 0. */

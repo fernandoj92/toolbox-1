@@ -123,7 +123,7 @@ public class PlateuIIDReplication extends PlateuStructure{
         List<Node> allNodes = new ArrayList();
 
         allNodes.addAll(this.nonReplictedNodes);
-
+        // Similar to a flatMap
         for (int i = 0; i < nReplications; i++) {
             allNodes.addAll(this.replicatedNodes.get(i));
         }
