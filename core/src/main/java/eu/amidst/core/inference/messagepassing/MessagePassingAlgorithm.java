@@ -168,7 +168,7 @@ public abstract class MessagePassingAlgorithm<E extends Vector> implements Infer
             boolean done = true;
             for (Node node : nodes) {
 
-                // Si el nodo no esta activo o se encuentra observado (no se que es eso), se salta la iteracion
+                // Si el nodo no esta activo o se encuentra observado (manifest), se salta la iteracion
                 if (!node.isActive() || node.isObserved())
                     continue;
 

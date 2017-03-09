@@ -19,18 +19,66 @@ import eu.amidst.core.variables.Variables;
 public class SVB_Examples {
 
     public static void main(String[] args) throws Exception {
+        //onlyRainWithCloudy();
         onlyRainWithLatentCloudy();
-        threeObservedLatentcloudy();
-        sprinklerMaximumLikelihood();
+        //threeObservedLatentcloudy();
+        //sprinklerMaximumLikelihood();
 
     }
 
+    private static void onlyRainWithCloudy(){
+        System.out.println("");
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("                    Only Rain with Cloudy");
+        System.out.println("---------------------------------------------------------------");
+
+        DataStream<DataInstance> data = DataStreamLoader.open("datasets/ferjorosa/sprinklerData300_rain_cloudy.arff");
+
+        SVB svb = new SVB();
+        svb.setWindowsSize(1000);
+        svb.setSeed(5);
+        VMP vmp = svb.getPlateuStructure().getVMP();
+        vmp.setTestELBO(true);
+        vmp.setMaxIter(1000);
+        vmp.setThreshold(0.0001);
+
+        Variables variables = new Variables(data.getAttributes());
+
+        Variable cloudy = variables.getVariableByName("cloudy");
+        Variable rain = variables.getVariableByName("rain");
+
+        DAG dag = new DAG(variables);
+
+        dag.getParentSet(rain).addParent(cloudy);
+
+        svb.setDAG(dag);
+        //svb.initLearning();
+        svb.setDataStream(data);
+        svb.runLearning();
+
+        BayesianNetwork learnBN = svb.getLearntBayesianNetwork();
+
+        System.out.println("SVB: ");
+        System.out.println(learnBN.toString());
+        System.out.println("=====================");
+        System.out.println("Maximum Likelihood: ");
+        ParallelMaximumLikelihood ml = new ParallelMaximumLikelihood();
+        ml.setDAG(dag);
+        ml.setDataStream(data);
+        ml.runLearning();
+        System.out.println(ml.getLearntBayesianNetwork().toString());
+    }
+
     private static void onlyRainWithLatentCloudy(){
+        System.out.println("");
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("               Only Rain with Latent Cloudy");
+        System.out.println("---------------------------------------------------------------");
 
         DataStream<DataInstance> data = DataStreamLoader.open("datasets/ferjorosa/sprinklerData300_rain.arff");
 
         SVB svb = new SVB();
-        svb.setWindowsSize(1000);
+        svb.setWindowsSize(300);
         svb.setSeed(5);
         VMP vmp = svb.getPlateuStructure().getVMP();
         vmp.setTestELBO(true);
@@ -57,6 +105,11 @@ public class SVB_Examples {
     }
 
     private static void threeObservedLatentcloudy(){
+
+        System.out.println("");
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("                Three observed latent Cloudy");
+        System.out.println("---------------------------------------------------------------");
 
         DataStream<DataInstance> data = DataStreamLoader.open("datasets/ferjorosa/sprinklerDataHidden.arff");
 
@@ -93,6 +146,11 @@ public class SVB_Examples {
     }
 
     public static void sprinklerMaximumLikelihood(){
+
+        System.out.println("");
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("                    Maximum Likelihood");
+        System.out.println("---------------------------------------------------------------");
 
         DataStream<DataInstance> data = DataStreamLoader.open("datasets/ferjorosa/sprinklerData300.arff");
 

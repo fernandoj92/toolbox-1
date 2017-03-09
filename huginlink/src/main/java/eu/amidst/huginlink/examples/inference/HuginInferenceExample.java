@@ -58,7 +58,8 @@ public class HuginInferenceExample {
         System.out.println("P(Mout|W=0) = " + inferenceAlgorithm.getPosterior(varMout));
 
         //Or some more refined queries
-        System.out.println("P(0.7<Mout<3.5 | W=0) = " + inferenceAlgorithm.getExpectedValue(varMout, v -> (0.7 < v && v < 3.5) ? 1.0 : 0.0 ));
+        System.out.println("P(0.7<Mout<6.59 | W=0) = " + inferenceAlgorithm.getExpectedValue(varMout, v -> (0.7 < v && v < 6.59) ? 1.0 : 0.0 ));
+
 
     }
 }
