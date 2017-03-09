@@ -72,7 +72,6 @@ Archive 2.zip
 Archive.1.zip
 *.zip
 
-*.arff
 datasets/RandomData.arff
 doc/testEvaluation/*
 huginlib/*
